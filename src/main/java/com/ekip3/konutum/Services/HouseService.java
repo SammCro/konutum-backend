@@ -26,7 +26,7 @@ public class HouseService {
     }
 
     public House findByHouseId(Long id){
-        return repo.findByHouseId(id);
+        return repo.findById(id).orElse(null);
     }
 
     public House findByHouseName(String name){

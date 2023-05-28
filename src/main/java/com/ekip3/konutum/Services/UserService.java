@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService {
+public class  UserService {
     @Autowired
     private UserRepository userRepo;
 
@@ -23,12 +23,12 @@ public class UserService {
         return userRepo.findByEmail(email);
     }
 
-    public User getUser(String email, String password){
-        return userRepo.findByEmailAndPassword(email, password);
+    public User getUser(Long id){
+        return userRepo.findById(id).orElse(null);
     }
 
-    public User getUser(Long id){
-        return userRepo.findById(id).get();
+    public List<User> getAllUsers(){
+        return userRepo.findAll();
     }
 
     public void deleteUser(Long id){

@@ -36,4 +36,10 @@ public class UserController {
         userService.saveUser(user);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<?> getAllUsers(){
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
 }

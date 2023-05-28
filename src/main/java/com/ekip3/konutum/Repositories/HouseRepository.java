@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HouseRepository  extends JpaRepository<House, Long> {
-    House findByHouseId(Long id);
-
     House findByHouseName(String name);
 }

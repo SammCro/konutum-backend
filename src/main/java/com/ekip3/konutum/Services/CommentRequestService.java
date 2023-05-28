@@ -27,7 +27,7 @@ public class CommentRequestService {
     }
 
     public CommentRequest findByCommentRequestId(Long id) {
-        return repo.findByCommentRequestId(id);
+        return repo.findById(id).orElse(null);
     }
 
 

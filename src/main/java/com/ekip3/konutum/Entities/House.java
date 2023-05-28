@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class House {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
