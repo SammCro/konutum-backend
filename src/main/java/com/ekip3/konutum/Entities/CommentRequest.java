@@ -23,4 +23,7 @@ public class CommentRequest {
     @Column(name = "comment")
     private String comment;
 
+    @Column(name = "status")
+    private String status;
+
 }
