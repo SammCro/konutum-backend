@@ -35,6 +35,10 @@ public class  UserService {
         userRepo.deleteById(id);
     }
 
+    public void deleteUser(String email){
+        userRepo.deleteByEmail(email);
+    }
+
     public void deleteUser(User user){
         userRepo.delete(user);
     }
@@ -47,9 +51,9 @@ public class  UserService {
         return userRepo.existsByEmailAndPassword(email, password);
     }
 
-    public List<Long> getFavoriteHouses(String email){
+    public List<Long> getFavoriteHouses(Long id){
         // getIdOfFavoriteHouses() returns a string like "1,2,3,4,5"
-        String[] favoriteHouses = userRepo.findByEmail(email).getIdOfFavoriteHouses().split(",");
+        String[] favoriteHouses = userRepo.findById(id).get().getIdOfFavoriteHouses().split(",");
         List<Long> favoriteHousesList = new ArrayList<>();
         for (String houseId : favoriteHouses) {
             favoriteHousesList.add(Long.parseLong(houseId));

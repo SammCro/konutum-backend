@@ -5,11 +5,10 @@ import com.ekip3.konutum.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -34,7 +33,7 @@ public class UserController {
         user.setEmail(email);
         user.setPassword(password);
         userService.saveUser(user);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/getAllUsers")
@@ -42,4 +41,30 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUser(@RequestParam("email") String email){
+        return ResponseEntity.ok(userService.getUser(email));
+    }
+
+    @GetMapping("/deleteUser")
+    public ResponseEntity<?> deleteUser(@RequestParam("email") String email){
+        userService.deleteUser(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/getUserFavorites/{id}")
+    public ResponseEntity<?> getUserFavorites(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getFavoriteHouses(id));
+    }
+
+    @PostMapping("/addFavoriteHouse/{id}/{houseId}")
+    public ResponseEntity<?> addFavoriteHouse(@PathVariable Long id, @PathVariable Long houseId){
+        User user = userService.getUser(id);
+        String favoriteHouses = user.getIdOfFavoriteHouses();
+        favoriteHouses += "," + houseId;
+        user.setIdOfFavoriteHouses(favoriteHouses);
+        userService.updateUser(user);
+        List<Long> favoriteHousesList = userService.getFavoriteHouses(id);
+        return ResponseEntity.ok(favoriteHousesList);
+    }
 }

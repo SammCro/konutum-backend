@@ -12,8 +12,8 @@ public class HouseService {
     @Autowired
     private HouseRepository repo;
 
-    public void saveMyHouse(House house){
-        repo.save(house);
+    public House saveHouse(House house){
+        return repo.save(house);
     }
 
     public Iterable<House> showAllHouses(){
