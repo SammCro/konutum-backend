@@ -1,5 +1,6 @@
 package com.ekip3.konutum.Services;
 
+import com.ekip3.konutum.Entities.House;
 import com.ekip3.konutum.Entities.User;
 import com.ekip3.konutum.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.List;
 public class  UserService {
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private HouseService houseService;
 
     public void saveUser(User user){
         userRepo.save(user);
@@ -51,14 +55,17 @@ public class  UserService {
         return userRepo.existsByEmailAndPassword(email, password);
     }
 
-    public List<Long> getFavoriteHouses(Long id){
-        // getIdOfFavoriteHouses() returns a string like "1,2,3,4,5"
+    public List<House> getFavoriteHouses(Long id){
         String[] favoriteHouses = userRepo.findById(id).get().getIdOfFavoriteHouses().split(",");
-        List<Long> favoriteHousesList = new ArrayList<>();
-        for (String houseId : favoriteHouses) {
-            favoriteHousesList.add(Long.parseLong(houseId));
+        List<House> favoriteHousesList = new ArrayList<>();
+        for (String favoriteHouse : favoriteHouses) {
+            favoriteHousesList.add(houseService.findByHouseId(Long.parseLong(favoriteHouse)));
         }
         return favoriteHousesList;
+    }
+
+    public String getUserType(String email, String password){
+        return userRepo.findUserType(email, password);
     }
 
 }

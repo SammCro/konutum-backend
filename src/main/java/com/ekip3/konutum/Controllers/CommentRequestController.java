@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/commentRequest")
 public class CommentRequestController {
@@ -25,7 +26,13 @@ public class CommentRequestController {
         return ResponseEntity.ok(commentRequestService.showAllCommentRequests());
     }
 
-    @DeleteMapping("/deleteCommentRequest/{id}")
+    @GetMapping("/acceptCommentRequest/{id}")
+    public ResponseEntity<?> acceptCommentRequest(@PathVariable Long id){
+        commentRequestService.acceptCommentRequest(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/rejectCommentRequest/{id}")
     public ResponseEntity<?> deleteCommentRequest(@PathVariable Long id){
         commentRequestService.deleteCommentRequestById(id);
         return ResponseEntity.ok().build();

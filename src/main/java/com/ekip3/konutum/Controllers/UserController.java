@@ -1,5 +1,6 @@
 package com.ekip3.konutum.Controllers;
 
+import com.ekip3.konutum.Entities.House;
 import com.ekip3.konutum.Entities.User;
 import com.ekip3.konutum.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -23,6 +25,11 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PostMapping("/getUserType/{email}/{password}")
+    public ResponseEntity<?> getUserType(@PathVariable String email, @PathVariable String password){
+            System.out.println(email);
+            return ResponseEntity.ok(userService.getUser(email).getUserType());
+    }
     @GetMapping("/register")
     public ResponseEntity<?> register(@RequestParam("email") String email, @RequestParam("password") String password){
         if (userService.isUserExist(email, password)){
@@ -63,7 +70,7 @@ public class UserController {
         favoriteHouses += "," + houseId;
         user.setIdOfFavoriteHouses(favoriteHouses);
         userService.updateUser(user);
-        List<Long> favoriteHousesList = userService.getFavoriteHouses(id);
+        List<House> favoriteHousesList = userService.getFavoriteHouses(id);
         return ResponseEntity.ok(favoriteHousesList);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/house")
 public class HouseController {
@@ -18,6 +19,11 @@ public class HouseController {
     @GetMapping("/getAllHouses")
     public ResponseEntity<?> getAllHouses(){
         return ResponseEntity.ok(houseService.showAllHouses());
+    }
+
+    @GetMapping("/getHouse/{id}")
+    public ResponseEntity<?> getHouse(@PathVariable Long id){
+        return ResponseEntity.ok(houseService.findByHouseId(id));
     }
 
     @DeleteMapping("/deleteHouse/{id}")

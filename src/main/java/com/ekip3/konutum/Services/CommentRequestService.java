@@ -27,6 +27,8 @@ public class CommentRequestService {
     private CommentRequestRepository repo;
 
     public void saveCommentRequest(CommentRequest commentRequest){
+        // log the comment request
+        System.out.println("Comment request is saved: " + commentRequest);
         repo.save(commentRequest);
     }
 
@@ -64,22 +66,22 @@ public class CommentRequestService {
             document.addPage(page);
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
             float yPosition = page.getMediaBox().getHeight() - 50; // Start y-position
 
             for (CommentRequest commentRequest : commentRequests) {
                 contentStream.beginText();
                 contentStream.newLineAtOffset(50, yPosition);
 
-                contentStream.showText("Expert: " + commentRequest.getExpertName());
+                contentStream.showText("Expert: " + commentRequest.getExpertName().replace('\u0131', 'i')); // Replace dotlessi with regular i
                 yPosition -= 20; // Move down by 20 points
                 contentStream.newLineAtOffset(0, -20);
 
-                contentStream.showText("House Name: " + commentRequest.getHouseName());
+                contentStream.showText("House Name: " + commentRequest.getHouseName().replace('\u0131', 'i')); // Replace dotlessi with regular i
                 yPosition -= 20;
                 contentStream.newLineAtOffset(0, -20);
 
-                contentStream.showText("Comment: " + commentRequest.getComment());
+                contentStream.showText("Comment: " + commentRequest.getComment().replace('\u0131', 'i')); // Replace dotlessi with regular i
                 yPosition -= 20;
                 contentStream.newLineAtOffset(0, -20);
 
@@ -107,5 +109,10 @@ public class CommentRequestService {
         }
     }
 
+    public void acceptCommentRequest(Long id) {
+        CommentRequest commentRequest = findByCommentRequestId(id);
+        commentRequest.setStatus("accepted");
+        repo.save(commentRequest);
+    }
 
 }
